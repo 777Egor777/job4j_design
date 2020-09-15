@@ -1,0 +1,33 @@
+package ru.job4j.it;
+
+import junit.framework.TestCase;
+import org.junit.Test;
+
+import java.util.NoSuchElementException;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.*;
+
+public class BackwardArrayItTest {
+    @Test
+    public void whenMultiCallHasNextThenTrue() {
+        BackwardArrayIt it = new BackwardArrayIt(new int[]{1, 2, 3});
+        assertTrue(it.hasNext());
+        it.next();
+        assertTrue(it.hasNext());
+    }
+
+    @Test
+    public void whenReadSequence() {
+        BackwardArrayIt it = new BackwardArrayIt(new int[]{1, 2, 3});
+        assertThat(it.next(), is(3));
+        assertThat(it.next(), is(2));
+        assertThat(it.next(), is(1));
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void whenNextFromEmptyArray() {
+        BackwardArrayIt it = new BackwardArrayIt(new int[]{});
+        it.next();
+    }
+}
