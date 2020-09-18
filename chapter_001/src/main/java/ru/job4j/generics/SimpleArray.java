@@ -30,6 +30,7 @@ public class SimpleArray<T> implements Iterable<T> {
         if (index < currentSize - 1) {
             System.arraycopy(array, index + 1, array, index, currentSize - 1 - index);
         }
+        array[currentSize - 1] = null;
         currentSize--;
     }
 
