@@ -25,6 +25,17 @@ public class SimpleArray<T> implements Iterable<T> {
         modCount++;
     }
 
+    public boolean contains(T model) {
+        boolean result = false;
+        for (int index = 0; index < size; ++index) {
+            if (get(index).equals(model)) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
     @Override
     public Iterator<T> iterator() {
         return new Iterator<>() {
