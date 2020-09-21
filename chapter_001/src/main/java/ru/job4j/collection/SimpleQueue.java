@@ -15,17 +15,13 @@ public class SimpleQueue<T> {
     }
 
     public T poll() {
-        T result;
         if (size() == 0) {
             throw new NoSuchElementException();
-        } else if (out.size() > 0) {
-            result = out.pop();
-        } else {
-            while (in.size() > 0) {
+        } else if (out.isEmpty()) {
+            while (!in.isEmpty()) {
                 out.push(in.pop());
             }
-            result = out.pop();
         }
-        return result;
+        return out.pop();
     }
 }
