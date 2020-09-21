@@ -28,7 +28,7 @@ public class SimpleArray<T> implements Iterable<T> {
     public boolean contains(T model) {
         boolean result = false;
         for (int index = 0; index < size; ++index) {
-            if (get(index).equals(model)) {
+            if (Objects.equals(get(index), model)) {
                 result = true;
                 break;
             }
