@@ -30,6 +30,18 @@ public class User {
         return Objects.hash(name, children, birthday);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        boolean result = false;
+        if (obj instanceof User) {
+            User user = (User) obj;
+            result = Objects.equals(name, user.name)
+                    && Objects.equals(children, user.children)
+                    && Objects.equals(birthday, user.birthday);
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         Calendar calendar = new GregorianCalendar(1995, 6, 27);
         User firstUser = new User("Egor", 0, calendar);
