@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
-public class    MyHashMapTest {
+public class MyHashMapTest {
 
     @Test
     public void insert() {
