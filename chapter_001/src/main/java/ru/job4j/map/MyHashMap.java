@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class MyHashMap<K, V> implements Iterable<Node> {
-    private int length = 10;
+    private int length = 16;
     private int size = 0;
     private double load = 0.0;
     private final double loadFactor = 0.75;
@@ -23,7 +23,7 @@ public class MyHashMap<K, V> implements Iterable<Node> {
 
     private void expand() {
         modCount++;
-        length *= 1.5;
+        length *= 2;
         Node[] newStorage = new Node[length];
         for (int i = 0; i < storage.length; ++i) {
             if (storage[i] != null) {
@@ -39,17 +39,17 @@ public class MyHashMap<K, V> implements Iterable<Node> {
     }
 
     public boolean insert(K key, V value) {
-        modCount++;
         boolean result = false;
         int pos = position(key);
         if (storage[pos] == null) {
             result = true;
             storage[pos] = new Node(key, value);
-        }
-        size++;
-        load = (double) size / length;
-        if (load >= loadFactor) {
-            expand();
+            modCount++;
+            size++;
+            load = (double) size / length;
+            if (load >= loadFactor) {
+                expand();
+            }
         }
         return result;
     }
@@ -57,16 +57,20 @@ public class MyHashMap<K, V> implements Iterable<Node> {
     public V get(K key) {
         modCount++;
         Node node = storage[position(key)];
-        return node == null ? null : (V) node.value;
+        V result = null;
+        if (node != null && key.equals((K) node.key)) {
+            result = (V) node.value;
+        }
+        return result;
     }
 
     public boolean delete(K key) {
-        modCount++;
         boolean result = false;
         int pos = position(key);
-        if (storage[pos] != null) {
+        if (storage[pos] != null && key.equals((K) storage[pos].key)) {
             result = true;
             storage[pos] = null;
+            modCount++;
         }
         return result;
     }
