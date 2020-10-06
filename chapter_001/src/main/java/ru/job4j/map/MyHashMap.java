@@ -1,10 +1,15 @@
 package ru.job4j.map;
 
-public class MyHashMap<K, V> {
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class MyHashMap<K, V> implements Iterable<Node> {
     private int length = 10;
     private int size = 0;
     private double load = 0.0;
     private final double loadFactor = 0.75;
+    private int modCount = 0;
     private Node[] storage = new Node[length];
 
     private int position(K key) {
@@ -17,6 +22,7 @@ public class MyHashMap<K, V> {
     }
 
     private void expand() {
+        modCount++;
         length *= 1.5;
         Node[] newStorage = new Node[length];
         for (int i = 0; i < storage.length; ++i) {
@@ -33,6 +39,7 @@ public class MyHashMap<K, V> {
     }
 
     public boolean insert(K key, V value) {
+        modCount++;
         boolean result = false;
         int pos = position(key);
         if (storage[pos] == null) {
@@ -48,11 +55,13 @@ public class MyHashMap<K, V> {
     }
 
     public V get(K key) {
+        modCount++;
         Node node = storage[position(key)];
         return node == null ? null : (V) node.value;
     }
 
     public boolean delete(K key) {
+        modCount++;
         boolean result = false;
         int pos = position(key);
         if (storage[pos] != null) {
@@ -60,5 +69,32 @@ public class MyHashMap<K, V> {
             storage[pos] = null;
         }
         return result;
+    }
+
+    @Override
+    public Iterator<Node> iterator() {
+        return new Iterator<>() {
+            private int position = 0;
+            private int itModCount = modCount;
+
+            @Override
+            public boolean hasNext() {
+                while (position < length && storage[position] == null) {
+                    position++;
+                }
+                return position < length;
+            }
+
+            @Override
+            public Node next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                if (itModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                return storage[position];
+            }
+        };
     }
 }

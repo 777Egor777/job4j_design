@@ -2,6 +2,8 @@ package ru.job4j.map;
 
 import org.junit.Test;
 
+import java.util.Iterator;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -27,5 +29,13 @@ public class MyHashMapTest {
         map.insert("Egor", 25);
         map.delete("Egor");
         assertNull(map.get("Egor"));
+    }
+
+    @Test
+    public void whenIteratorAtFirstPosition() {
+        MyHashMap<String, Integer> map = new MyHashMap<>();
+        map.insert("Egor", 25);
+        Iterator<Node> it = map.iterator();
+        assertThat(it.next().key, is("Egor"));
     }
 }
