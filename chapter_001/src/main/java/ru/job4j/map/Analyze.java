@@ -22,15 +22,7 @@ public class Analyze {
                 info.added++;
             }
         }
-        map = new HashMap();
-        for (User user : current) {
-            map.put(user.id, user.name);
-        }
-        for (User user : previous) {
-            if (!map.containsKey(user.id)) {
-                info.deleted++;
-            }
-        }
+        info.deleted = previous.size() + info.added - current.size();
         return info;
     }
 
