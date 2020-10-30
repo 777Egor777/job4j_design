@@ -19,7 +19,9 @@ public class Config {
             for (String line : lines) {
                 if (!line.equals("") && !line.startsWith("##")) {
                     String[] parts = line.split("=");
-                    values.put(parts[0], parts[1]);
+                    if (parts.length == 2) {
+                        values.put(parts[0], parts[1]);
+                    }
                 }
             }
         } catch (Exception ex) {
