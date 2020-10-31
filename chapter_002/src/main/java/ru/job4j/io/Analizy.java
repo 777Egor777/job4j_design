@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Analizy {
     public void unavailable(String source, String target) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(source));
-             PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
+        List<String> periods = new LinkedList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(source))) {
             String startOfPeriod = null;
             String line;
             while ((line = reader.readLine()) != null) {
@@ -20,13 +20,21 @@ public class Analizy {
                     }
                 } else {
                     if (startOfPeriod != null) {
-                        writer.println(startOfPeriod + ";" + date);
+                        periods.add(startOfPeriod + ";" + date);
                         startOfPeriod = null;
                     }
                 }
             }
             if (startOfPeriod != null) {
-                writer.println(startOfPeriod + ";");
+                periods.add(startOfPeriod + ";");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        try (PrintWriter writer = new PrintWriter(new BufferedOutputStream(new FileOutputStream(target)))) {
+            for (String period : periods) {
+                writer.println(period);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
