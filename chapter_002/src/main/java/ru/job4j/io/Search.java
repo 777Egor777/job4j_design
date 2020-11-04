@@ -23,4 +23,10 @@ public class Search {
         Files.walkFileTree(root, searcher);
         return searcher.getPaths();
     }
+
+    public static List<Path> searchWithExclude(Path root, String ext) throws IOException {
+        SearchFiles searcher = new SearchFiles(p -> !p.toFile().getName().endsWith(ext));
+        Files.walkFileTree(root, searcher);
+        return searcher.getPaths();
+    }
 }
