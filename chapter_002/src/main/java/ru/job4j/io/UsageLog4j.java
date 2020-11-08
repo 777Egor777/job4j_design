@@ -7,10 +7,14 @@ public class UsageLog4j {
     private static final Logger LOG = LoggerFactory.getLogger(UsageLog4j.class.getName());
 
     public static void  main(String[] args) {
-        LOG.trace("trace message");
-        LOG.debug("debug message");
-        LOG.info("info message");
-        LOG.warn("warn message");
-        LOG.error("error message");
+        byte b = 100;
+        short sh = 1000;
+        int i = 1000000;
+        long l = 1000000000000L;
+        char c = 'a';
+        boolean bool = true;
+        float f = 1.4f;
+        double d = 100.7;
+        LOG.warn("Primitive types values: {}, {}, {}, {}, {}, {}, {}, {}", b, sh, i, l, c, bool, f, d);
     }
 }
