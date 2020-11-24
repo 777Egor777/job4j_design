@@ -1,0 +1,15 @@
+create database fighter_db;
+create table fighter(
+    id serial primary key,
+    name varchar(255),
+    age int4,
+    height int4,
+    weight int4
+)
+select * from fighter;
+insert into fighter(name, age, height, weight) values('Fedor', 44, 182, 104);
+select * from fighter;
+update fighter set name='Alex Emelyanenko', age=39, height=193, weight=115;
+select * from fighter;
+delete from fighter;
+select * from fighter;
