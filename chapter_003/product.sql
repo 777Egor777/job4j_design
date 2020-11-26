@@ -7,7 +7,7 @@ from product join type t on t.id = product.type_id
 where t.name like '%мороженое%';
 
 select * from product
-where date_part('month', expired_date) = date_part('month', current_date) - 1;
+where date_part('month', expired_date) = date_part('month', current_date - interval '1 month');
 
 select product.name
 from product join type t on t.id = product.type_id
