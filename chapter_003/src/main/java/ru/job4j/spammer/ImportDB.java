@@ -39,12 +39,10 @@ public class ImportDB {
     List<User> load() throws IOException {
         List<User> users = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(dump))) {
-            List<String> lines = new ArrayList<>();
-            reader.lines().forEach(line -> lines.add(line));
-            for (String line : lines) {
+            reader.lines().forEach(line -> {
                 String[] parts = line.split(";");
                 users.add(new User(parts[0], parts[1]));
-            }
+            });
         }
         return users;
     }
