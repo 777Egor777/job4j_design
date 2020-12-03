@@ -45,9 +45,9 @@ public class EchoServer {
                         System.out.println(line);
                         line = in.readLine();
                     }
-                    out.write("HTTP/1.1 200 OK\r\n\\".getBytes());
+                    out.write("HTTP/1.1 200 OK\r\n".getBytes());
                     if (answer != null) {
-                        out.write((answer + "\r\n\\").getBytes());
+                        out.write((answer + "\r\n").getBytes());
                     }
 
                 }
