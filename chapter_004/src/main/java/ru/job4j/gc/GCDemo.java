@@ -1,5 +1,7 @@
 package ru.job4j.gc;
 
+import static com.carrotsearch.sizeof.RamUsageEstimator.sizeOf;
+
 public class GCDemo {
     private final static Runtime ENVIRONMENT = Runtime.getRuntime();
     private static final long KB = 1024;
@@ -17,10 +19,9 @@ public class GCDemo {
 
     public static void main(String[] args) {
         info();
-        for (int i = 0; i < 10000; ++i) {
-            new Person(i, "N" + i);
+        for (int i = 0; i < 500000; ++i) {
+            new User(20 + i / 60000, 50 + i / 10000);
         }
-        System.gc();
         info();
     }
 }
