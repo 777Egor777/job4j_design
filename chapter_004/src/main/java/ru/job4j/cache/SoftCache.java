@@ -29,14 +29,14 @@ import java.util.StringJoiner;
  */
 public class SoftCache implements Cache {
     /**
-     * Задаваемые ключи словаря
+     * Задаваемые значения словаря
      * задаются по Soft-ссылке.
      * Таким образом, они будут
      * уничтожены сборщиком
      * мусора только в случае
      * нехватки памяти в куче.
      */
-    private final Map<SoftReference<String>, String> map = new HashMap<>();
+    private final Map<String, SoftReference<String>> map = new HashMap<>();
 
     /**
      * Метод загружает содержимое
@@ -59,32 +59,6 @@ public class SoftCache implements Cache {
     }
 
     /**
-     * Получает путь по имени
-     * файла из папки resources
-     * и возвращает его
-     * @param fileName - имя файла
-     * @return путь файла
-     */
-    private String getPath(String fileName) {
-        return Objects.requireNonNull(SoftCache.class.getClassLoader().getResource(fileName)).getPath();
-    }
-
-    /**
-     * Метод сохраняет строку
-     * в файл
-     * @param filename - имя файла
-     * @param content - сохраняемый текст
-     */
-    private void save(String filename, String content) {
-        String path = getPath(filename);
-        try (PrintStream ps = new PrintStream(path)) {
-            ps.print(content);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Метод возвращает текст
      * файла по ключу,
      * где ключ - имя файла
@@ -101,29 +75,23 @@ public class SoftCache implements Cache {
      */
     @Override
     public String get(String key) {
-        SoftReference<String> softKey = new SoftReference<>(key);
-        if (!map.containsKey(softKey)) {
-            map.put(softKey, load(key));
+        if (!map.containsKey(key)) {
+            SoftReference<String> softValue = new SoftReference<>(load(key));
+            map.put(key, softValue);
         }
-        return map.get(softKey);
+        return map.get(key).get();
     }
 
 
     /**
      * Устанавливает новое значение
-     * ключа. Так же обновляет
-     * содержимое файла, чтобы
-     * не было несостыковок.
-     *
-     * Если такого файла
-     * не существует, он будет создан
+     * ключа.
      * @param key - ключ
      * @param value - новое значение
      */
     @Override
     public void put(String key, String value) {
-        SoftReference<String> softKey = new SoftReference<>(key);
-        map.put(softKey, value);
-        save(key, value);
+        SoftReference<String> softValue = new SoftReference<>(value);
+        map.put(key, softValue);
     }
 }

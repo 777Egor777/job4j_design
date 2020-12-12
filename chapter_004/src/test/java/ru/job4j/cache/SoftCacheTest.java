@@ -28,5 +28,6 @@ public class SoftCacheTest {
         String result = cache.get(fileName);
         String expected = "Test2";
         assertThat(result, is(expected));
+        cache.put(fileName, "Test");
     }
 }
