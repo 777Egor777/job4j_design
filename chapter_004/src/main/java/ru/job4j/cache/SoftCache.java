@@ -75,7 +75,7 @@ public class SoftCache implements Cache {
      */
     @Override
     public String get(String key) {
-        if (!map.containsKey(key)) {
+        if (!map.containsKey(key) || map.get(key).get() == null) {
             SoftReference<String> softValue = new SoftReference<>(load(key));
             map.put(key, softValue);
         }
