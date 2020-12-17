@@ -1,5 +1,7 @@
 package ru.job4j.rsp;
 
+import ru.job4j.rsp.util.SalaryConverter;
+
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Predicate;
@@ -30,6 +32,12 @@ public class AccountantReport implements ReportEngine {
     private final int course;
 
     /**
+     * Converter that we will use
+     * to convert salary value.
+     */
+    private final SalaryConverter converter;
+
+    /**
      * Store, from which we
      * extract info about
      * employees.
@@ -46,6 +54,7 @@ public class AccountantReport implements ReportEngine {
     public AccountantReport(Store store, int course) {
         this.store = store;
         this.course = course;
+        converter = new SalaryConverter(course);
     }
 
     /**
@@ -75,7 +84,7 @@ public class AccountantReport implements ReportEngine {
                     .append(worker.getName()).append(";")
                     .append(worker.getHired()).append(";")
                     .append(worker.getFired()).append(";")
-                    .append(worker.getSalary() * course).append(";");
+                    .append(converter.convertSalary(worker.getSalary())).append(";");
             joiner.add(builder.toString());
         }
         return joiner.toString();
