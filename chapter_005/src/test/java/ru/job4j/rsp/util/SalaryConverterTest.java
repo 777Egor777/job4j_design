@@ -11,7 +11,7 @@ public class SalaryConverterTest {
         SalaryConverter converter = new SalaryConverter(2);
         double salary = 85;
         double expected = salary * 2;
-        double result = converter.convertSalary(salary);
+        double result = converter.convert(salary);
         assertEquals(result, expected, 0.0001);
     }
 }

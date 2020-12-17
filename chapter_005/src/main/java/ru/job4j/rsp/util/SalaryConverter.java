@@ -9,7 +9,7 @@ package ru.job4j.rsp.util;
  * @version 1.0
  * @since 17.12.2020
  */
-public class SalaryConverter {
+public class SalaryConverter implements Converter {
     /**
      * Course that we will us
      * to convert given salary.
@@ -34,7 +34,7 @@ public class SalaryConverter {
      * @return salary, converted
      *         to course.
      */
-    public double convertSalary(double salary) {
+    public double convert(double salary) {
         return salary * course;
     }
 }
