@@ -1,38 +1,27 @@
-package ru.job4j.rsp;
+package ru.job4j.ocp;
 
-import ru.job4j.ocp.FormatReport;
-import ru.job4j.ocp.FormatReportEngine;
 import ru.job4j.ocp.util.Tab;
+import ru.job4j.rsp.Employee;
+import ru.job4j.rsp.ReportEngine;
+import ru.job4j.rsp.Store;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.StringJoiner;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * Method generate report
- * in format that
- * HR department
- * of the company asks.
+ * Class helps to
+ * generate report
+ * in JSON format.
  *
  * Employees filtered
  * by predicate.
  *
- * Employees sorted by
- * desc of salary.
- *
- * Dates when employee
- * hired and fired
- * removed from the
- * report.
- *
  * @author Geraskin Egor
- * @version 2.0
- * @since 18.12.2020
+ * @version 1.0
+ * @since 17.12.2020
  */
-public class ReportHR implements FormatReportEngine {
+public class ReportJSON implements FormatReportEngine {
     private final FormatReportEngine engine;
 
     /**
@@ -43,56 +32,45 @@ public class ReportHR implements FormatReportEngine {
     private final Store store;
 
     /**
-     * Comparator for {@code Employee}
-     * objects that we will use
-     * to sort employees
-     * desc by salary.
-     */
-    private final Comparator<Employee> employeeCmpDescBySalary = (o1, o2) -> Double.compare(o1.getSalary(), o2.getSalary()) * -1;
-
-
-    /**
      * Constructor.
      * @param store - init value of the
      *                {@code store} field.
      */
-    public ReportHR(Store store) {
+    public ReportJSON(Store store) {
         this.store = store;
         engine = new FormatReport(store);
         init();
     }
 
     private void init() {
-        engine.setContentPrefix("Name;Salary;" + System.lineSeparator());
-        engine.setItemSuffix(";");
-        engine.setItemSeparator(System.lineSeparator());
-        engine.setFieldSeparator(";");
+        engine.setPartTab(" ");
+        engine.setFieldCountOfPartTabs(6);
+        engine.setFieldSeparator("," + System.lineSeparator());
+        engine.setItemCountOfPartTabs(4);
+        engine.setItemPrefix("{" + System.lineSeparator());
+        engine.setItemSuffix(System.lineSeparator() + "    }");
+        engine.setItemSeparator("," + System.lineSeparator());
+        engine.setContentPrefix("{" + System.lineSeparator()
+                + "  \"employees\": [" + System.lineSeparator());
+        engine.setContentSuffix(System.lineSeparator()
+                + "  ]" + System.lineSeparator()
+                + "}");
     }
 
     /**
      * Method generate report
-     * in format that
-     * HR department
-     * of the company asks.
+     * in JSON format.
      *
      * Employees filtered
      * by predicate.
      *
-     * Employees sorted by
-     * desc of salary.
-     *
-     * In this report there
-     * are no dates when
-     * employee hired
-     * and fired.
-     *
      * @param filter - predicate.
-     * @return - report in "HR"
-     *           format
+     * @return report in JSON
+     *         format.
      */
     @Override
     public final String generate(Predicate<Employee> filter) {
-        return makeContent(store.findBy(filter).stream().sorted(employeeCmpDescBySalary).map(emp -> makeItem(this, emp))
+        return makeContent(store.findBy(filter).stream().map(emp -> makeItem(this, emp))
                 .collect(Collectors.toList()));
     }
 
@@ -218,7 +196,9 @@ public class ReportHR implements FormatReportEngine {
 
     @Override
     public final String makeField(String key, String value) {
-        return engine.makeField(key, value);
+        return getTab().tab(getFieldCountOfPartTabs())
+                + getFieldPrefix()
+                + String.format("\"%s\": \"%s\"", key, value);
     }
 
     @Override
@@ -228,10 +208,7 @@ public class ReportHR implements FormatReportEngine {
 
     @Override
     public final String makeItem(FormatReportEngine engine, Employee emp) {
-        List<String> fields = new ArrayList<>();
-        fields.add(makeField("name", emp.getName()));
-        fields.add(makeField("salary", "" + emp.getSalary()));
-        return makeItem(fields);
+        return this.engine.makeItem(engine, emp);
     }
 
     @Override
