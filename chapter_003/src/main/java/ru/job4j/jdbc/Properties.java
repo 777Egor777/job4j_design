@@ -13,7 +13,7 @@ public class Properties {
     }
 
     private void readProperties(String source) {
-        try(BufferedReader reader = new BufferedReader(new FileReader(source))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(source))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 int pos = line.indexOf('=');
