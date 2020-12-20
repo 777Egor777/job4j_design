@@ -7,15 +7,15 @@ import java.util.Calendar;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class FoodHolderEngineTest {
+public class StorageEngineTest {
 
     @Test
     public void add() {
-        FoodHolder shop = new FoodHolderEngine("Shop");
+        Storage shop = new StorageEngine("Shop", food -> true);
         Calendar now = Calendar.getInstance();
         Food food = new Food("Apple", now, now, 100, 40);
         shop.add(food);
-        assertThat(shop.getAll().get(0).toString(),
+        assertThat(shop.clear().get(0).toString(),
                 is(
                         String.format("Food{%s,%s,%s,%f,%f}",
                                 "Apple",

@@ -37,6 +37,8 @@ public final class Food {
      */
     private double discount;
 
+    private final long allTimeInMillis;
+
     /**
      * Constructor.
      *
@@ -52,6 +54,7 @@ public final class Food {
         this.expire = expire;
         this.price = price;
         this.discount = discount;
+        allTimeInMillis = expire.getTimeInMillis() - create.getTimeInMillis();
     }
 
     /**
@@ -102,6 +105,14 @@ public final class Food {
      */
     public final void setDiscount(double discount) {
         this.discount = discount;
+    }
+
+    public final long getLiveTimeInMillis() {
+        return Calendar.getInstance().getTimeInMillis() - create.getTimeInMillis();
+    }
+
+    public final long getAllTimeInMillis() {
+        return allTimeInMillis;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package ru.job4j.lsp.food;
 
-import org.checkerframework.checker.units.qual.C;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,7 +30,7 @@ public class ControlQualityTest {
     public void whenAddToTrash() {
         Food food = new Food("Apple", now, now, 100, 40);
         control.add(food);
-        FoodHolder holder = control.getTrash();
+        Storage holder = control.getTrash();
         String result = Objects.requireNonNull(holder).toString();
         StringJoiner joiner = new StringJoiner(System.lineSeparator());
         joiner.add("Trash");
@@ -47,7 +46,7 @@ public class ControlQualityTest {
         expire.setTimeInMillis(now.getTimeInMillis() + MS_PER_DAY);
         food = new Food("Apple", create, expire, 100, 40);
         control.add(food);
-        FoodHolder holder = control.getShop();
+        Storage holder = control.getShop();
         String result = Objects.requireNonNull(holder).toString();
         StringJoiner joiner = new StringJoiner(System.lineSeparator());
         joiner.add("Shop");
@@ -63,7 +62,7 @@ public class ControlQualityTest {
         expire.setTimeInMillis(now.getTimeInMillis() + MS_PER_DAY);
         food = new Food("Apple", create, expire, 100, 40);
         control.add(food);
-        FoodHolder holder = control.getShop();
+        Storage holder = control.getShop();
         String result = Objects.requireNonNull(holder).toString();
         StringJoiner joiner = new StringJoiner(System.lineSeparator());
         joiner.add("Shop");
@@ -79,7 +78,7 @@ public class ControlQualityTest {
         expire.setTimeInMillis(now.getTimeInMillis() + MS_PER_DAY);
         Food food = new Food("Apple", create, expire, 100, 40);
         control.add(food);
-        FoodHolder holder = control.getWarehouse();
+        Storage holder = control.getWarehouse();
         String result = Objects.requireNonNull(holder).toString();
         StringJoiner joiner = new StringJoiner(System.lineSeparator());
         joiner.add("Warehouse");

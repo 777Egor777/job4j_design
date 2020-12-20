@@ -11,7 +11,7 @@ import java.util.List;
  * @version 1.0
  * @since 19.12.2020
  */
-public interface FoodHolder {
+public interface Storage {
     /**
      * Add product to food
      * holder.
@@ -19,10 +19,12 @@ public interface FoodHolder {
      */
     void add(Food food);
 
+    boolean accept(Food food);
+
     /**
      * Get all product from
      * food holder.
      * @return - all products.
      */
-    List<Food> getAll();
+    List<Food> clear();
 }
