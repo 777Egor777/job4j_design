@@ -1,5 +1,7 @@
 package ru.job4j.lsp.food;
 
+import ru.job4j.lsp.food.repeat.SimpleRepeatable;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.function.Function;
  * @version 1.0
  * @since 19.12.2020
  */
-public final class ControlQuality {
+public final class ControlQuality implements Resortable, SimpleRepeatable {
     private final Storage trash = new Trash();
     private final Storage shop = new Shop();
     private final Storage warehouse = new Warehouse();
@@ -49,5 +51,20 @@ public final class ControlQuality {
 
     public final Storage getWarehouse() {
         return warehouse;
+    }
+
+    @Override
+    public final void resort() {
+        List<Food> products = new ArrayList<>();
+        storages.forEach(storage -> {
+            products.addAll(storage.getAll());
+            storage.clean();
+        });
+        products.forEach(this::add);
+    }
+
+    @Override
+    public final void repeat() {
+        resort();
     }
 }

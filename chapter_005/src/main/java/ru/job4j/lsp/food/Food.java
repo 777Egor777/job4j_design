@@ -1,6 +1,7 @@
 package ru.job4j.lsp.food;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  * Base class for all
@@ -11,6 +12,8 @@ import java.util.Calendar;
  * @since 19.12.2020
  */
 public final class Food {
+    private static final double DELTA = 0.0000001;
+
     /**
      * Name of the product.
      */
@@ -121,5 +124,29 @@ public final class Food {
                 name, create.toString(),
                 expire.toString(),
                 price, discount);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, create, expire, price, discount);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Food food = (Food) obj;
+        return Objects.equals(food.name, name)
+                && food.create.getTimeInMillis() == create.getTimeInMillis()
+                && food.expire.getTimeInMillis() == expire.getTimeInMillis()
+                && Math.abs(food.price - price) <= DELTA
+                && Math.abs(food.discount - discount) <= DELTA;
     }
 }

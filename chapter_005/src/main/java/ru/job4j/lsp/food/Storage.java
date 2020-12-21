@@ -1,5 +1,6 @@
 package ru.job4j.lsp.food;
 
+import java.lang.ref.Cleaner;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * @version 1.0
  * @since 19.12.2020
  */
-public interface Storage {
+public interface Storage extends Cleaner.Cleanable {
     /**
      * Add product to food
      * holder.
@@ -26,5 +27,5 @@ public interface Storage {
      * food holder.
      * @return - all products.
      */
-    List<Food> clear();
+    List<Food> getAll();
 }

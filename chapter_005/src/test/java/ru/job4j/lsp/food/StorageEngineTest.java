@@ -15,11 +15,21 @@ public class StorageEngineTest {
         Calendar now = Calendar.getInstance();
         Food food = new Food("Apple", now, now, 100, 40);
         shop.add(food);
-        assertThat(shop.clear().get(0).toString(),
+        assertThat(shop.getAll().get(0).toString(),
                 is(
                         String.format("Food{%s,%s,%s,%f,%f}",
                                 "Apple",
                                 now, now, 100.0, 40.0)
                 ));
+    }
+
+    @Test
+    public void clean() {
+        Storage shop = new StorageEngine("Shop", food -> true);
+        Calendar now = Calendar.getInstance();
+        Food food = new Food("Apple", now, now, 100, 40);
+        shop.add(food);
+        shop.clean();
+        assertThat(shop.getAll().size(), is(0));
     }
 }

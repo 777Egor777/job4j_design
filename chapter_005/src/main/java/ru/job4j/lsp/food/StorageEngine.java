@@ -63,10 +63,8 @@ public final class StorageEngine implements Storage {
      * @return - all products.
      */
     @Override
-    public final List<Food> clear() {
-        List<Food> result = new ArrayList<>(products);
-        products.clear();
-        return result;
+    public final List<Food> getAll() {
+        return products;
     }
 
     @Override
@@ -76,5 +74,10 @@ public final class StorageEngine implements Storage {
         joiner.add("Number of products: " + products.size());
         products.forEach(pr -> joiner.add(pr.toString()));
         return joiner.toString();
+    }
+
+    @Override
+    public final void clean() {
+        products.clear();
     }
 }

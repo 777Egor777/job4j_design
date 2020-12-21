@@ -56,12 +56,17 @@ public final class Shop implements Storage {
      * @return - all products.
      */
     @Override
-    public final List<Food> clear() {
-        return engine.clear();
+    public final List<Food> getAll() {
+        return engine.getAll();
     }
 
     @Override
     public final String toString() {
         return engine.toString();
+    }
+
+    @Override
+    public final void clean() {
+        engine.clean();
     }
 }
