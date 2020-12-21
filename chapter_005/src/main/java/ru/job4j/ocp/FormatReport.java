@@ -29,6 +29,8 @@ import java.util.stream.Collectors;
  */
 public class FormatReport implements FormatReportEngine {
     private final static int CAPACITY_TAB_FACTORY = 10;
+    private FieldMaker fieldMaker = this;
+    private ItemMaker itemMaker = this;
 
     /**
      * Prefix of the final
@@ -127,6 +129,14 @@ public class FormatReport implements FormatReportEngine {
         this.store = store;
     }
 
+    public final void setFieldMaker(FieldMaker maker) {
+        fieldMaker = maker;
+    }
+
+    public final void setItemMakerMaker(ItemMaker maker) {
+        itemMaker = maker;
+    }
+
     /**
      * Setter for {@code contentPrefix}
      * field.
@@ -135,7 +145,6 @@ public class FormatReport implements FormatReportEngine {
      *                      {@code contentPrefix}
      *                      field
      */
-    @Override
     public final void setContentPrefix(String contentPrefix) {
         this.contentPrefix = contentPrefix;
     }
@@ -148,7 +157,6 @@ public class FormatReport implements FormatReportEngine {
      *                      {@code contentSuffix}
      *                      field
      */
-    @Override
     public final void setContentSuffix(String contentSuffix) {
         this.contentSuffix = contentSuffix;
     }
@@ -161,7 +169,6 @@ public class FormatReport implements FormatReportEngine {
      *                   {@code itemPrefix}
      *                   field
      */
-    @Override
     public final void setItemPrefix(String itemPrefix) {
         this.itemPrefix = itemPrefix;
     }
@@ -174,7 +181,6 @@ public class FormatReport implements FormatReportEngine {
      *                   {@code itemSuffix}
      *                   field
      */
-    @Override
     public final void setItemSuffix(String itemSuffix) {
         this.itemSuffix = itemSuffix;
     }
@@ -187,7 +193,6 @@ public class FormatReport implements FormatReportEngine {
      *                    {@code fieldPrefix}
      *                    field
      */
-    @Override
     public final void setFieldPrefix(String fieldPrefix) {
         this.fieldPrefix = fieldPrefix;
     }
@@ -200,7 +205,6 @@ public class FormatReport implements FormatReportEngine {
      *                    {@code fieldSuffix}
      *                    field
      */
-    @Override
     public final void setFieldSuffix(String fieldSuffix) {
         this.fieldSuffix = fieldSuffix;
     }
@@ -213,7 +217,6 @@ public class FormatReport implements FormatReportEngine {
      *                      {@code itemSeparator}
      *                      field
      */
-    @Override
     public final void setItemSeparator(String itemSeparator) {
         this.itemSeparator = itemSeparator;
     }
@@ -226,7 +229,6 @@ public class FormatReport implements FormatReportEngine {
      *                       {@code fieldSeparator}
      *                       field
      */
-    @Override
     public final void setFieldSeparator(String fieldSeparator) {
         this.fieldSeparator = fieldSeparator;
     }
@@ -239,7 +241,6 @@ public class FormatReport implements FormatReportEngine {
      *                {@code partTab}
      *                field
      */
-    @Override
     public final void setPartTab(String partTab) {
         this.partTab = partTab;
         tab = new TabFactory(partTab, CAPACITY_TAB_FACTORY);
@@ -252,7 +253,6 @@ public class FormatReport implements FormatReportEngine {
      *
      * @param countOfTabs - number of tabs
      */
-    @Override
     public final void setItemCountOfPartTabs(int countOfTabs) {
         this.itemCountOfPartTabs = countOfTabs;
     }
@@ -265,7 +265,6 @@ public class FormatReport implements FormatReportEngine {
      *
      * @param countOfTabs - number of tabs
      */
-    @Override
     public final void setFieldCountOfPartTabs(int countOfTabs) {
         this.fieldCountOfPartTabs = countOfTabs;
     }
@@ -277,7 +276,6 @@ public class FormatReport implements FormatReportEngine {
      * @return value of
      * content prefix.
      */
-    @Override
     public final String getContentPrefix() {
         return contentPrefix;
     }
@@ -289,7 +287,6 @@ public class FormatReport implements FormatReportEngine {
      * @return value of
      * content suffix.
      */
-    @Override
     public final String getContentSuffix() {
         return contentSuffix;
     }
@@ -301,7 +298,6 @@ public class FormatReport implements FormatReportEngine {
      * @return value of
      * item prefix.
      */
-    @Override
     public final String getItemPrefix() {
         return itemPrefix;
     }
@@ -313,7 +309,6 @@ public class FormatReport implements FormatReportEngine {
      * @return value of
      * item suffix.
      */
-    @Override
     public final String getItemSuffix() {
         return itemSuffix;
     }
@@ -325,7 +320,6 @@ public class FormatReport implements FormatReportEngine {
      * @return value of
      * field prefix.
      */
-    @Override
     public final String getFieldPrefix() {
         return fieldPrefix;
     }
@@ -337,7 +331,6 @@ public class FormatReport implements FormatReportEngine {
      * @return value of
      * field suffix.
      */
-    @Override
     public final String getFieldSuffix() {
         return fieldSuffix;
     }
@@ -349,7 +342,6 @@ public class FormatReport implements FormatReportEngine {
      * @return value of
      * item separator.
      */
-    @Override
     public final String getItemSeparator() {
         return itemSeparator;
     }
@@ -361,7 +353,6 @@ public class FormatReport implements FormatReportEngine {
      * @return value of
      * field separator.
      */
-    @Override
     public final String getFieldSeparator() {
         return fieldSeparator;
     }
@@ -373,7 +364,6 @@ public class FormatReport implements FormatReportEngine {
      * @return value of
      * partTab.
      */
-    @Override
     public final String getPartTab() {
         return partTab;
     }
@@ -386,7 +376,6 @@ public class FormatReport implements FormatReportEngine {
      * tabs for each
      * item.
      */
-    @Override
     public final int getItemCountOfPartTabs() {
         return itemCountOfPartTabs;
     }
@@ -399,7 +388,6 @@ public class FormatReport implements FormatReportEngine {
      * tabs for each
      * field.
      */
-    @Override
     public final int getFieldCountOfPartTabs() {
         return fieldCountOfPartTabs;
     }
@@ -414,7 +402,6 @@ public class FormatReport implements FormatReportEngine {
      * from which we receive
      * user data.
      */
-    @Override
     public final Store getStore() {
         return store;
     }
@@ -426,7 +413,6 @@ public class FormatReport implements FormatReportEngine {
      * @return current tab
      * obj.
      */
-    @Override
     public final Tab getTab() {
         return tab;
     }
@@ -463,7 +449,6 @@ public class FormatReport implements FormatReportEngine {
                 + fieldSuffix;
     }
 
-    @Override
     public final String makeItem(List<String> fields) {
         return tab.tab(itemCountOfPartTabs)
                 + itemPrefix
@@ -484,13 +469,17 @@ public class FormatReport implements FormatReportEngine {
      * employee
      */
     @Override
-    public final String makeItem(FormatReportEngine engine, Employee emp) {
-        List<String> fields = new ArrayList<>();
-        fields.add(engine.makeField("name", emp.getName()));
-        fields.add(engine.makeField("hired", "" + emp.getHired()));
-        fields.add(engine.makeField("fired", "" + emp.getFired()));
-        fields.add(engine.makeField("salary", "" + emp.getSalary()));
-        return makeItem(fields);
+    public final String makeItem(Employee emp) {
+        if (itemMaker == this) {
+            List<String> fields = new ArrayList<>();
+            fields.add(fieldMaker.makeField("name", emp.getName()));
+            fields.add(fieldMaker.makeField("hired", "" + emp.getHired()));
+            fields.add(fieldMaker.makeField("fired", "" + emp.getFired()));
+            fields.add(fieldMaker.makeField("salary", "" + emp.getSalary()));
+            return makeItem(fields);
+        } else {
+            return itemMaker.makeItem(emp);
+        }
     }
 
     /**
@@ -507,7 +496,6 @@ public class FormatReport implements FormatReportEngine {
      *              of employees.
      * @return final report.
      */
-    @Override
     public final String makeContent(List<String> items) {
         return contentPrefix
                 + items.stream().collect(Collectors.joining(itemSeparator))
@@ -527,6 +515,6 @@ public class FormatReport implements FormatReportEngine {
      */
     @Override
     public final String generate(Predicate<Employee> filter) {
-        return makeContent(store.findBy(filter).stream().map(emp -> makeItem(this, emp)).collect(Collectors.toList()));
+        return makeContent(store.findBy(filter).stream().map(this::makeItem).collect(Collectors.toList()));
     }
 }

@@ -2,7 +2,6 @@ package ru.job4j.rsp;
 
 import org.junit.Before;
 import org.junit.Test;
-import ru.job4j.ocp.FormatReportEngine;
 
 import java.util.Calendar;
 
@@ -13,7 +12,7 @@ public class OldReportTest {
     private static Store store;
     private static Calendar now;
     private static Employee worker;
-    private static FormatReportEngine engine;
+    private static ReportEngine report;
 
     @Before
     public void doBeforeEachTest() {
@@ -21,7 +20,7 @@ public class OldReportTest {
         now = Calendar.getInstance();
         worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        engine = new OldReport(store);
+        report = new OldReport(store);
     }
 
     @Test
@@ -33,27 +32,7 @@ public class OldReportTest {
                 .append(worker.getFired()).append(";")
                 .append(worker.getSalary()).append(";")
                 .toString();
-        String result = engine.generate(employee -> true);
-        assertThat(result, is(expected));
-    }
-
-    @Test
-    public void makeField() {
-        String key = "key";
-        String value = "value";
-        String result = engine.makeField(key, value);
-        String expected = "value";
-        assertThat(result, is(expected));
-    }
-
-    @Test
-    public void makeItem() {
-        String result = engine.makeItem(engine, worker);
-        String expected = String.format("%s;%s;%s;%s;",
-                worker.getName(),
-                worker.getHired(),
-                worker.getFired(),
-                worker.getSalary());
+        String result = report.generate(employee -> true);
         assertThat(result, is(expected));
     }
 }

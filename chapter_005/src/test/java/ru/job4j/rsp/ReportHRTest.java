@@ -2,7 +2,7 @@ package ru.job4j.rsp;
 
 import org.junit.Before;
 import org.junit.Test;
-import ru.job4j.ocp.FormatReportEngine;
+import ru.job4j.ocp.ItemMaker;
 
 import java.util.Calendar;
 
@@ -14,7 +14,8 @@ public class ReportHRTest {
     private static Calendar now;
     private static Employee workerEgor;
     private static Employee workerIvan;
-    public static FormatReportEngine engine;
+    public static ReportEngine report;
+    public static ItemMaker maker;
 
     @Before
     public void doBeforeEachTest() {
@@ -24,12 +25,13 @@ public class ReportHRTest {
         workerIvan = new Employee("Ivan", now, now, 200);
         store.add(workerEgor);
         store.add(workerIvan);
-        engine = new ReportHR(store);
+        report = new ReportHR(store);
+        maker = (ItemMaker) report;
     }
 
     @Test
     public void generate() {
-        String result = engine.generate(emp -> true);
+        String result = report.generate(emp -> true);
         String expected = new StringBuilder().append("Name;Salary;")
                 .append(System.lineSeparator())
                 .append(workerIvan.getName()).append(";")
@@ -42,17 +44,8 @@ public class ReportHRTest {
     }
 
     @Test
-    public void makeField() {
-        String key = "key";
-        String value = "value";
-        String result = engine.makeField(key, value);
-        String expected = "value";
-        assertThat(result, is(expected));
-    }
-
-    @Test
     public void makeItem() {
-        String result = engine.makeItem(engine, workerIvan);
+        String result = maker.makeItem(workerIvan);
         String expected = String.format("%s;%s;",
                 workerIvan.getName(),
                 workerIvan.getSalary());

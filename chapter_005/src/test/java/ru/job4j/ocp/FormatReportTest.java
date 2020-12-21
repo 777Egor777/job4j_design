@@ -17,7 +17,7 @@ public class FormatReportTest {
     public static Store store;
     public static Calendar now;
     public static Employee ivan;
-    public static FormatReportEngine engine;
+    public static FormatReport report;
 
     @Before
     public void doBeforeTest() {
@@ -25,14 +25,14 @@ public class FormatReportTest {
         now = Calendar.getInstance();
         ivan = new Employee("Ivan", now, now, 200);
         store.add(ivan);
-        engine = new FormatReport(store);
+        report = new FormatReport(store);
     }
 
     @Test
     public void generate() {
-        engine.setFieldSeparator(";");
-        engine.setItemSuffix(";");
-        String result = engine.generate(emp -> true);
+        report.setFieldSeparator(";");
+        report.setItemSuffix(";");
+        String result = report.generate(emp -> true);
         String expected = new StringBuilder()
                 .append(ivan.getName()).append(";")
                 .append(ivan.getHired()).append(";")
@@ -44,113 +44,113 @@ public class FormatReportTest {
 
     @Test
     public void getContentPrefix() {
-        engine.setContentPrefix("!");
-        String result = engine.getContentPrefix();
+        report.setContentPrefix("!");
+        String result = report.getContentPrefix();
         String expected = "!";
         assertThat(result, is(expected));
     }
 
     @Test
     public void getContentSuffix() {
-        engine.setContentSuffix("!");
-        String result = engine.getContentSuffix();
+        report.setContentSuffix("!");
+        String result = report.getContentSuffix();
         String expected = "!";
         assertThat(result, is(expected));
     }
 
     @Test
     public void getItemPrefix() {
-        engine.setItemPrefix("!");
-        String result = engine.getItemPrefix();
+        report.setItemPrefix("!");
+        String result = report.getItemPrefix();
         String expected = "!";
         assertThat(result, is(expected));
     }
 
     @Test
     public void getItemSuffix() {
-        engine.setItemSuffix("!");
-        String result = engine.getItemSuffix();
+        report.setItemSuffix("!");
+        String result = report.getItemSuffix();
         String expected = "!";
         assertThat(result, is(expected));
     }
 
     @Test
     public void getFieldPrefix() {
-        engine.setFieldPrefix("!");
-        String result = engine.getFieldPrefix();
+        report.setFieldPrefix("!");
+        String result = report.getFieldPrefix();
         String expected = "!";
         assertThat(result, is(expected));
     }
 
     @Test
     public void getFieldSuffix() {
-        engine.setFieldSuffix("!");
-        String result = engine.getFieldSuffix();
+        report.setFieldSuffix("!");
+        String result = report.getFieldSuffix();
         String expected = "!";
         assertThat(result, is(expected));
     }
 
     @Test
     public void getItemSeparator() {
-        engine.setItemSeparator("!");
-        String result = engine.getItemSeparator();
+        report.setItemSeparator("!");
+        String result = report.getItemSeparator();
         String expected = "!";
         assertThat(result, is(expected));
     }
 
     @Test
     public void getFieldSeparator() {
-        engine.setFieldSeparator("!");
-        String result = engine.getFieldSeparator();
+        report.setFieldSeparator("!");
+        String result = report.getFieldSeparator();
         String expected = "!";
         assertThat(result, is(expected));
     }
 
     @Test
     public void getPartTab() {
-        engine.setPartTab("!");
-        String result = engine.getPartTab();
+        report.setPartTab("!");
+        String result = report.getPartTab();
         String expected = "!";
         assertThat(result, is(expected));
     }
 
     @Test
     public void getItemCountOfPartTabs() {
-        engine.setItemCountOfPartTabs(2);
-        int result = engine.getItemCountOfPartTabs();
+        report.setItemCountOfPartTabs(2);
+        int result = report.getItemCountOfPartTabs();
         int expected = 2;
         assertThat(result, is(expected));
     }
 
     @Test
     public void getFieldCountOfPartTabs() {
-        engine.setFieldCountOfPartTabs(2);
-        int result = engine.getFieldCountOfPartTabs();
+        report.setFieldCountOfPartTabs(2);
+        int result = report.getFieldCountOfPartTabs();
         int expected = 2;
         assertThat(result, is(expected));
     }
 
     @Test
     public void makeField() {
-        engine.setFieldPrefix("<td>");
-        engine.setFieldSuffix("</td>");
-        engine.setFieldCountOfPartTabs(4);
-        engine.setPartTab(" ");
-        String result = engine.makeField("key", "value");
+        report.setFieldPrefix("<td>");
+        report.setFieldSuffix("</td>");
+        report.setFieldCountOfPartTabs(4);
+        report.setPartTab(" ");
+        String result = report.makeField("key", "value");
         String expected = "    <td>value</td>";
         assertThat(result, is(expected));
     }
 
     @Test
     public void makeItem() {
-        engine.setFieldPrefix("<td>");
-        engine.setFieldSuffix("</td>");
-        engine.setFieldCountOfPartTabs(4);
-        engine.setPartTab(" ");
-        engine.setFieldSeparator(";");
-        engine.setItemSuffix(";");
-        engine.setItemPrefix(";");
-        String result = engine.makeItem(engine, ivan);
+        report.setFieldPrefix("<td>");
+        report.setFieldSuffix("</td>");
+        report.setFieldCountOfPartTabs(4);
+        report.setPartTab(" ");
+        report.setFieldSeparator(";");
+        report.setItemSuffix(";");
+        report.setItemPrefix(";");
+        String result = report.makeItem(ivan);
         String expected = ";    <td>" + ivan.getName() + "</td>;    <td>"
                 + ivan.getHired() + "</td>;    <td>" + ivan.getFired()
                 + "</td>;    <td>" + ivan.getSalary() + "</td>;";
@@ -159,16 +159,16 @@ public class FormatReportTest {
 
     @Test
     public void makeContent() {
-        engine.setFieldPrefix("<td>");
-        engine.setFieldSuffix("</td>");
-        engine.setFieldCountOfPartTabs(4);
-        engine.setPartTab(" ");
-        engine.setFieldSeparator(";");
-        engine.setItemSuffix(";");
-        engine.setItemPrefix(";");
+        report.setFieldPrefix("<td>");
+        report.setFieldSuffix("</td>");
+        report.setFieldCountOfPartTabs(4);
+        report.setPartTab(" ");
+        report.setFieldSeparator(";");
+        report.setItemSuffix(";");
+        report.setItemPrefix(";");
         List<String> items = new ArrayList<>();
-        items.add(engine.makeItem(engine, ivan));
-        String result = engine.makeContent(items);
+        items.add(report.makeItem(ivan));
+        String result = report.makeContent(items);
         String expected = items.get(0);
         assertThat(result, is(expected));
     }

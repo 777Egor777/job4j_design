@@ -2,7 +2,7 @@ package ru.job4j.rsp;
 
 import org.junit.Before;
 import org.junit.Test;
-import ru.job4j.ocp.FormatReportEngine;
+import ru.job4j.ocp.FieldMaker;
 
 import java.util.Calendar;
 
@@ -13,7 +13,8 @@ public class AccountantReportTest {
     private static Store store;
     private static Calendar now;
     private static Employee worker;
-    private static FormatReportEngine engine;
+    private static ReportEngine report;
+    private static FieldMaker maker;
 
     @Before
     public void doBeforeEachTest() {
@@ -21,12 +22,13 @@ public class AccountantReportTest {
         now = Calendar.getInstance();
         worker = new Employee("Ivan", now, now, 100);
         store.add(worker);
-        engine = new AccountantReport(store, 2);
+        report = new AccountantReport(store, 2);
+        maker = (FieldMaker) report;
     }
 
     @Test
     public void generate() {
-        String result = engine.generate(emp -> true);
+        String result = report.generate(emp -> true);
         String expected = new StringBuilder().append("Name;Hired;Fired;Salary;")
                 .append(System.lineSeparator())
                 .append(worker.getName()).append(";")
@@ -41,19 +43,8 @@ public class AccountantReportTest {
     public void makeField() {
         String key = "key";
         String value = "value";
-        String result = engine.makeField(key, value);
+        String result = maker.makeField(key, value);
         String expected = "value";
-        assertThat(result, is(expected));
-    }
-
-    @Test
-    public void makeItem() {
-        String result = engine.makeItem(engine, worker);
-        String expected = String.format("%s;%s;%s;%s;",
-                worker.getName(),
-                worker.getHired(),
-                worker.getFired(),
-                worker.getSalary() * 2);
         assertThat(result, is(expected));
     }
 }
