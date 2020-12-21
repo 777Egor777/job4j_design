@@ -23,12 +23,5 @@ public interface Car {
      */
     int getId();
 
-    /**
-     * @param type - тип парковочного места,
-     *             задаваемый е-нумератором
-     *             PlaceType.
-     * @return количество мест данного типа,
-     *         которое занимает данная машина.
-     */
-    int getCountOfPlaces(PlaceType type);
+    int getSize();
 }

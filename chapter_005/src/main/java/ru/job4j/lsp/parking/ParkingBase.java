@@ -53,13 +53,13 @@ public final class ParkingBase implements Parking {
      * Машина освобождает
      * парковочные места.
      *
-     * @param car - машина, которая
+     * @param id - id машины, которая
      *            уезжает с парковки
      *            и освобождает
      *            парковочные места.
      */
     @Override
-    public final void free(Car car) {
+    public final void remove(int id) {
 
     }
 
@@ -189,5 +189,10 @@ public final class ParkingBase implements Parking {
 
         public void clear(List<Place> places) {
         }
+    }
+
+    private enum PlaceType {
+        GENERAL,
+        TRUCK
     }
 }
