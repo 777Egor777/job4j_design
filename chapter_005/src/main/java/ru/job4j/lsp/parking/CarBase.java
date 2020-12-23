@@ -44,5 +44,8 @@ public final class CarBase implements Car {
         return super.hashCode();
     }
 
-
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

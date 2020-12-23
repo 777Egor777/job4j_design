@@ -20,12 +20,9 @@ public final class ParkingBase implements Parking {
 
     /**
      * Конструктор.
-     * @param numOfPlacesOfEachType - перечисление количеств
-     *                                мест каждого типа,
-     *                                которые есть на парковке.
      */
-    public ParkingBase(int... numOfPlacesOfEachType) {
-        set = new PlaceSet(numOfPlacesOfEachType);
+    public ParkingBase(int passengerCarPlaces, int truckPlaces) {
+        set = new PlaceSet(passengerCarPlaces, truckPlaces);
     }
 
     /**
@@ -175,7 +172,7 @@ public final class ParkingBase implements Parking {
      */
     private final class PlaceSet {
 
-        public PlaceSet(int... numOfPlacesOfEachType) {
+        public PlaceSet(int passengerCarPlaces, int truckPlaces) {
         }
 
 
