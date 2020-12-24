@@ -11,8 +11,16 @@ import java.util.List;
  * @since 20.12.2020
  */
 public final class CarBase implements Car {
+    private static int nextId = 1;
+    private final String name;
+    private final String sign;
+    private final int size;
+    private final int id = nextId++;
 
     public CarBase(String name, String sign, int size) {
+        this.name = name;
+        this.sign = sign;
+        this.size = size;
     }
 
     /**
@@ -26,26 +34,36 @@ public final class CarBase implements Car {
      */
     @Override
     public final int getId() {
-        return 0;
+        return id;
     }
 
     @Override
     public int getSize() {
-        return 0;
+        return size;
     }
 
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Car)) {
+            return false;
+        }
+        Car car = (Car) obj;
+        return id == car.getId();
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return id;
     }
 
     @Override
     public String toString() {
-        return super.toString();
+        return String.format("{id=%d, name=%s, sign=%s}", id, name, sign);
     }
 }
